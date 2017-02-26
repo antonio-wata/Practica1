@@ -16,9 +16,6 @@
         <h1>${info}!</h1>
         <h2>${profesor.nombre_profesor}</h2> 
         
-        <c:forEach var="grupo" items="${profesor.grupos_profesor}">
-            <h3>${grupo.nombre_grupo} </h3>
         
-        </c:forEach>
     </body>
 </html>
