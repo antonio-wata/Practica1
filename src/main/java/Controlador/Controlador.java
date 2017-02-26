@@ -5,7 +5,10 @@
  */
 package Controlador;
 
+import Mapeo.Profesor;
+import Modelo.ProfesorDAO;
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,24 +22,28 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller 
 public class Controlador {
     
+    @Autowired
+    ProfesorDAO profesor_db;
+    
     @RequestMapping(value="/")
     public String inicio(){
         return "inicio";
     }
     
-    @RequestMapping(value="/persona1", method = RequestMethod.GET)
-    public ModelAndView persona1(ModelMap model,HttpServletRequest request){
+    @RequestMapping(value="/profesor", method = RequestMethod.GET)
+    public ModelAndView profesor(ModelMap model,HttpServletRequest request){
         String p = request.getParameter("nombre1");
-        model.addAttribute("persona", p);
-        return new ModelAndView("persona",model);
+        Profesor prof = profesor_db.getPersona(p);
+        
+        String info = "";
+        if (prof == null){
+            model.addAttribute("info", info+"No se encontro nungun profesor con ese nombre");
+        }else{
+            model.addAttribute("info", info+"El profesor es");
+            model.addAttribute("profesor", prof);
+        }
+        return new ModelAndView("profesor",model);
     
     }
     
-    @RequestMapping(value="/persona2", method = RequestMethod.POST)
-    public ModelAndView persona2(ModelMap model,HttpServletRequest request){
-        String p = request.getParameter("nombre2");
-        model.addAttribute("persona", p);
-        return new ModelAndView("persona",model);
-    
-    }
 }
